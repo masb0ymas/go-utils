@@ -7,6 +7,8 @@ import (
 
 var countryTz = map[string]string{
 	"ID": "Asia/Jakarta",
+	"MY": "Asia/Kuala_Lumpur",
+	"SG": "Asia/Singapore",
 }
 
 func TimeIn(name string) time.Time {
