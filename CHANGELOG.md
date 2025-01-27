@@ -1,7 +1,5 @@
 # Changelog
 
-## v0.0.4
+## v0.0.5
 
-* fix: pkg println
-* fix: update release.sh
-* fix: update release sh
+* fix: revert pkg
