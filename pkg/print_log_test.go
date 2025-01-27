@@ -1,4 +1,4 @@
-package logger
+package pkg
 
 import (
 	"testing"
@@ -22,7 +22,7 @@ func TestPrintLog(t *testing.T) {
 			title:    "Test Title",
 			message:  "Test Message",
 			options:  nil,
-			expected: Printl("Test Title", "Test Message"),
+			expected: Println("Test Title", "Test Message"),
 		},
 		{
 			name:    "Success label",
@@ -34,7 +34,7 @@ func TestPrintLog(t *testing.T) {
 					TagText: stringPtr("success"),
 				},
 			},
-			expected: Printl("Success Title", "Success Message", PrintOptions{Label: "success", TagText: "success"}),
+			expected: Println("Success Title", "Success Message", PrintOptions{Label: "success", TagText: "success"}),
 		},
 		{
 			name:    "Warning label",
@@ -46,7 +46,7 @@ func TestPrintLog(t *testing.T) {
 					TagText: stringPtr("warning"),
 				},
 			},
-			expected: Printl("Warning Title", "Warning Message", PrintOptions{Label: "warning", TagText: "warning"}),
+			expected: Println("Warning Title", "Warning Message", PrintOptions{Label: "warning", TagText: "warning"}),
 		},
 		{
 			name:    "Error label",
@@ -58,13 +58,13 @@ func TestPrintLog(t *testing.T) {
 					TagText: stringPtr("error"),
 				},
 			},
-			expected: Printl("Error Title", "Error Message", PrintOptions{Label: "error", TagText: "error"}),
+			expected: Println("Error Title", "Error Message", PrintOptions{Label: "error", TagText: "error"}),
 		},
 	}
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			result := Printl(tc.title, tc.message, tc.options...)
+			result := Println(tc.title, tc.message, tc.options...)
 
 			if result != tc.expected {
 				t.Errorf("\nPrintLog() = %v\nexpected = %v", result, tc.expected)

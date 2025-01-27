@@ -1,4 +1,4 @@
-package logger
+package pkg
 
 import (
 	"fmt"
@@ -53,7 +53,7 @@ func getColorFunc(opt ColorOption) func(a ...interface{}) string {
 	}
 }
 
-func Printl(title string, message string, options ...PrintOptions) string {
+func Println(title string, message string, options ...PrintOptions) string {
 	// Default options
 	opt := PrintOptions{
 		TagText:    "server",
