@@ -11,6 +11,15 @@ echo "| Previous Release Tag  | $PREV_TAG"
 echo "| New Release Tag       | $NEW_TAG"
 echo -e "---------------------------------------------\n"
 
+# Generate changelog
+echo "# Changelog" > CHANGELOG.md
+echo "" >> CHANGELOG.md
+echo "## $NEW_TAG" >> CHANGELOG.md
+echo "" >> CHANGELOG.md
+git log $PREV_TAG..$HEAD --pretty=format:"* %s" >> CHANGELOG.md
+echo "" >> CHANGELOG.md
+
+# Commit and push
 git add .
 git commit -m "chore(release): bump to version $NEW_TAG"
 git tag -a "$NEW_TAG" -m "Release version $NEW_TAG"
