@@ -1,0 +1,19 @@
+set -e
+
+PREV_TAG=$(git tag | sort -V | tail -n 1)
+NEW_TAG=$(git describe --tags --abbrev=0)
+
+# Update Tag
+NEW_TAG=$(echo $PREV_TAG | awk -F. -v OFS=. '{++$NF} 1')
+
+echo -e "---------------------------------------------"
+echo "| Previous Release Tag  | $PREV_TAG"
+echo "| New Release Tag       | $NEW_TAG"
+echo -e "---------------------------------------------\n"
+
+git add .
+git commit -m "chore(release): bump to version $NEW_TAG"
+git tag -a "$NEW_TAG" -m "Release version $NEW_TAG"
+git push origin "$NEW_TAG"
+
+echo -e "\nRelease a new version successfully!\n"
