@@ -1,4 +1,4 @@
-package string
+package pkg
 
 func Contains(slice []string, item string) bool {
 	for _, s := range slice {
