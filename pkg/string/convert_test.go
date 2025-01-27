@@ -1,6 +1,9 @@
 package string
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 func TestStringToInt32(t *testing.T) {
 	tests := []struct {
@@ -58,6 +61,65 @@ func TestStringToInt32(t *testing.T) {
 			got := StringToInt32(tt.input, tt.defaultValue...)
 			if got != tt.expected {
 				t.Errorf("StringToInt32() = %v, expected %v", got, tt.expected)
+			}
+		})
+	}
+}
+
+func TestStringToTime(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		wantTime time.Time
+		wantErr  bool
+	}{
+		{
+			name:     "empty string",
+			input:    "",
+			wantTime: time.Time{},
+			wantErr:  false,
+		},
+		{
+			name:     "RFC3339 format",
+			input:    "2023-05-15T14:30:00Z",
+			wantTime: time.Date(2023, 5, 15, 14, 30, 0, 0, time.UTC),
+			wantErr:  false,
+		},
+		{
+			name:     "ISO8601 format",
+			input:    "2023-05-15T14:30:00+00:00",
+			wantTime: time.Date(2023, 5, 15, 14, 30, 0, 0, time.UTC),
+			wantErr:  false,
+		},
+		{
+			name:     "datetime format",
+			input:    "2023-05-15 14:30:05",
+			wantTime: time.Date(2023, 5, 15, 14, 30, 5, 0, time.UTC),
+			wantErr:  false,
+		},
+		{
+			name:     "date only format",
+			input:    "2023-05-15",
+			wantTime: time.Date(2023, 5, 15, 0, 0, 0, 0, time.UTC),
+			wantErr:  false,
+		},
+		{
+			name:     "invalid format",
+			input:    "2023-13-45",
+			wantTime: time.Time{},
+			wantErr:  true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := StringToTime(tt.input)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("StringToTime() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !got.Equal(tt.wantTime) {
+				t.Errorf("StringToTime() = %v, want %v", got, tt.wantTime)
 			}
 		})
 	}
