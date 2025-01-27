@@ -1,7 +1,7 @@
 # Changelog
 
-## v0.0.3
+## v0.0.4
 
+* fix: pkg println
 * fix: update release.sh
-* fix change command
-* feat: add release sh
+* fix: update release sh
