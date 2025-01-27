@@ -3,8 +3,13 @@ set -e
 PREV_TAG=$(git tag | sort -V | tail -n 1)
 NEW_TAG=$(git describe --tags --abbrev=0)
 
-# Update Tag
-NEW_TAG=$(echo $PREV_TAG | awk -F. -v OFS=. '{++$NF} 1')
+# Check if tag exists, if not create a new tag
+if [ -z "$PREV_TAG" ]; then
+  NEW_TAG="v0.0.1"
+else
+  # Update Tag
+  NEW_TAG=$(echo $PREV_TAG | awk -F. -v OFS=. '{++$NF} 1')
+fi
 
 echo -e "---------------------------------------------"
 echo "| Previous Release Tag  | $PREV_TAG"
