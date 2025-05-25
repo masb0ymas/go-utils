@@ -66,6 +66,62 @@ func TestStringToInt32(t *testing.T) {
 	}
 }
 
+func TestStringToInt64(t *testing.T) {
+	tests := []struct {
+		name         string
+		input        string
+		defaultValue []int64
+		expected     int64
+	}{
+		{
+			name:     "valid number",
+			input:    "123",
+			expected: 123,
+		},
+		{
+			name:         "valid number with default",
+			input:        "456",
+			defaultValue: []int64{999},
+			expected:     456,
+		},
+		{
+			name:         "invalid number uses default",
+			input:        "abc",
+			defaultValue: []int64{999},
+			expected:     999,
+		},
+		{
+			name:     "invalid number uses zero default",
+			input:    "abc",
+			expected: 0,
+		},
+		{
+			name:     "empty string uses zero default",
+			input:    "",
+			expected: 0,
+		},
+		{
+			name:     "max int64",
+			input:    "9223372036854775807",
+			expected: 9223372036854775807,
+		},
+		{
+			name:     "min int64",
+			input:    "-9223372036854775808",
+			expected: -9223372036854775808,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := StringToInt64(tt.input, tt.defaultValue...)
+			if got != tt.expected {
+				t.Errorf("StringToInt64() = %v, expected %v", got, tt.expected)
+			}
+		})
+	}
+}
+
 func TestStringToTime(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -120,6 +176,76 @@ func TestStringToTime(t *testing.T) {
 			}
 			if !got.Equal(tt.wantTime) {
 				t.Errorf("StringToTime() = %v, want %v", got, tt.wantTime)
+			}
+		})
+	}
+}
+
+func TestIntToString(t *testing.T) {
+	tests := []struct {
+		name  string
+		input int
+		want  string
+	}{
+		{
+			name:  "positive integer",
+			input: 123,
+			want:  "123",
+		},
+		{
+			name:  "negative integer",
+			input: -456,
+			want:  "-456",
+		},
+		{
+			name:  "zero",
+			input: 0,
+			want:  "0",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := IntToString(tt.input)
+			if got != tt.want {
+				t.Errorf("IntToString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestJoinStrings(t *testing.T) {
+	tests := []struct {
+		name string
+		strs []string
+		sep  string
+		want string
+	}{
+		{
+			name: "empty slice",
+			strs: []string{},
+			sep:  ",",
+			want: "",
+		},
+		{
+			name: "single string",
+			strs: []string{"hello"},
+			sep:  ",",
+			want: "hello",
+		},
+		{
+			name: "multiple strings",
+			strs: []string{"hello", "world"},
+			sep:  ",",
+			want: "hello,world",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := JoinStrings(tt.strs, tt.sep)
+			if got != tt.want {
+				t.Errorf("JoinStrings() = %v, want %v", got, tt.want)
 			}
 		})
 	}
