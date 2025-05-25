@@ -1,5 +1,5 @@
 # Changelog
 
-## v0.0.5
+## v0.0.6
 
-* fix: revert pkg
+* fix: update pkg convert
